@@ -1,5 +1,5 @@
 console.log("this is script of snake game");
-let dimention = 30;
+let dimension = 30;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                           Http request                                                                                 //
@@ -7,10 +7,10 @@ let dimention = 30;
 var url = new URL(window.location.href);
 let d = url.searchParams.get("d") * 1
 if (d && d < 50 && d > 20) {
-    dimention = d;
+    dimension = d;
 }
 else if (d) {
-    alert("Dimention must be <50 and >20")
+    alert("dimension must be <50 and >20")
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -19,13 +19,13 @@ else if (d) {
 //                                                                         imp veriable                                                                                   //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 let inputDir = { x: 0, y: 0 };
-let iniV = (dimention > 10 & dimention <= 20) * 5 + (dimention > 20) * 20
+let iniV = (dimension > 10 & dimension <= 20) * 5 + (dimension > 20) * 20
 let rate = 2;
-let limit = (dimention > 10 & dimention <= 20) * 20 + (dimention > 20) * 40;
+let limit = (dimension > 10 & dimension <= 20) * 20 + (dimension > 20) * 40;
 let lastPaintTime = 0;
 let speed = iniV;
-let snakeArr = [{ x: Math.round(2 + (dimention - 3) * Math.random()), y: Math.round(2 + (dimention - 3) * Math.random()) },];
-let food = { x: Math.round(2 + (dimention - 3) * Math.random()), y: Math.round(2 + (dimention - 3) * Math.random()) };
+let snakeArr = [{ x: Math.round(2 + (dimension - 3) * Math.random()), y: Math.round(2 + (dimension - 3) * Math.random()) },];
+let food = { x: Math.round(2 + (dimension - 3) * Math.random()), y: Math.round(2 + (dimension - 3) * Math.random()) };
 let score = 0;
 let initTime = null;
 let stage = 0;
@@ -39,18 +39,18 @@ let gameStatus = "pause"
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                                              managing localstorage                                                                              //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-highScoreValue = JSON.parse(localStorage.getItem(`highScore-${dimention}`));
-if (localStorage.getItem(`highScore-${dimention}`) === null) {
-    localStorage.setItem(`highScore-${dimention}`, "[0]");
+highScoreValue = JSON.parse(localStorage.getItem(`highScore-${dimension}`));
+if (localStorage.getItem(`highScore-${dimension}`) === null) {
+    localStorage.setItem(`highScore-${dimension}`, "[0]");
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//                                                                   board dimention                                                                                   //
+//                                                                   board dimension                                                                                   //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-board.style.gridTemplateColumns = `repeat(${dimention}, 1fr)`;
-board.style.gridTemplateRows = `repeat(${dimention}, 1fr)`;
+board.style.gridTemplateColumns = `repeat(${dimension}, 1fr)`;
+board.style.gridTemplateRows = `repeat(${dimension}, 1fr)`;
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -67,7 +67,7 @@ const moveSound = new Audio('assets/music/move.mp3');
 //                                                                         important function                                                                          //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // this return the value of x and y co-ordinates of head taking into account that the when that when the block enters inside a wall, it comes out from the opposite wall
-function crossWall(x) { return dimention * (x <= 0) + (x > 0 && x <= dimention) * x + (x > dimention); }
+function crossWall(x) { return dimension * (x <= 0) + (x > 0 && x <= dimension) * x + (x > dimension); }
 function checkDir(dir) {
     isMove = true
     if (snakeArr.length !== 1) {
@@ -91,12 +91,12 @@ function isInList(element, list = snakeArr) {
 //this funtion is to get highscore from localstorage or to change the value of highscore in localstorage
 function getScore(isReturn = true, score = null) {
     if (isReturn) {
-        highScoreValue = JSON.parse(localStorage.getItem(`highScore-${dimention}`));
+        highScoreValue = JSON.parse(localStorage.getItem(`highScore-${dimension}`));
         return highScoreValue[0];
     }
     else {
         highScoreValue = `[${score}]`
-        localStorage.setItem(`highScore-${dimention}`, highScoreValue);
+        localStorage.setItem(`highScore-${dimension}`, highScoreValue);
     }
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -110,9 +110,9 @@ function main(ctime) {
         lastTimeEaten = ctime;
         eaten = false;
     }
-    if ((ctime - lastTimeEaten) / 1000 >= dimention) {
+    if ((ctime - lastTimeEaten) / 1000 >= dimension) {
         lastTimeEaten = ctime;
-        food = { x: Math.round(2 + (dimention - 3) * Math.random()), y: Math.round(2 + (dimention - 3) * Math.random()) };
+        food = { x: Math.round(2 + (dimension - 3) * Math.random()), y: Math.round(2 + (dimension - 3) * Math.random()) };
         score -= speed;
         select("#score").innerHTML = "Score : " + score;
     }
@@ -149,7 +149,7 @@ function gameEngine() {
         select("#score").innerHTML = "Score : " + score;
         snakeArr.unshift({ x: snakeArr[0].x + inputDir.x, y: snakeArr[0].y + inputDir.y });
         while (isInList(food)) {
-            food = { x: Math.round(2 + (dimention - 3) * Math.random()), y: Math.round(2 + (dimention - 3) * Math.random()) };
+            food = { x: Math.round(2 + (dimension - 3) * Math.random()), y: Math.round(2 + (dimension - 3) * Math.random()) };
         }
     }
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -170,7 +170,7 @@ function gameEngine() {
     if (isInList(snakeArr[0], snakeArr.slice(1))) {
         gameOverSound.play();
         alert("Game over. Press enter to play again");
-        snakeArr = [{ x: Math.round(2 + (dimention - 3) * Math.random()), y: Math.round(2 + (dimention - 3) * Math.random()) }];
+        snakeArr = [{ x: Math.round(2 + (dimension - 3) * Math.random()), y: Math.round(2 + (dimension - 3) * Math.random()) }];
         inputDir = { x: 0, y: 0 };
         score = 0;
         count = 0;
